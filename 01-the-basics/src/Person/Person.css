@@ -1,0 +1,9 @@
+/* This here is global css code, not only for Persons compoent */
+.Person {
+    width: 60;
+    margin: auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    padding: 16px;
+    text-align: center;
+}

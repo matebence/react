@@ -1,6 +1,7 @@
-import { Component } from 'react';
 import './App.css';
+import { Component } from 'react';
 import Person from './Person/Person';
+import styled from 'styled-components';
 
 class App extends Component {
 
@@ -31,42 +32,53 @@ class App extends Component {
   }
 
   tooglePersonComponent = () => {
-    // It merges the state
     this.setState({showPerson: !this.state.showPerson});
   }
 
   deletePerson = (personIndex) => {
-    const persons = [... this.state.persons]; // Updating immutably
+    const persons = [... this.state.persons]; 
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
   }
 
   render() {
-    // render is function so before the return we can write logic here
-    let persons = null;
-    if (this.state.showPerson) {
-      persons = (
-        <Person 
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age} 
-          change={(event) => this.changeHandler(event, 1)}>And the Hobbies are: Cars</Person>
-      )
+    const Button = styled.button`
+      background: ${props => props.primary ? '#007bff' : '#6c757d'};
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+
+      &:hover {
+        background: ${props => props.primary ? '#0056b3' : '#5a6268'};
+      }
+   
+      @media (min-width: 768px) {
+        background: orange;
+      }
+    `;
+
+    let classes = [];
+    
+    if (this.state.persons.length <= 2) {
+      classes.push('red');
+    }
+    
+    if (this.state.persons.length <= 1) {
+      classes.push('bold');
     }
 
     return (
       <div className="App">
-          <button onClick={this.tooglePersonComponent}>Toogle</button>
-          {persons}
+          <Button primary onClick={this.tooglePersonComponent}>Toogle</Button>
+          <p className={classes.join(' ')}>This is a class test</p>
           {
-            // Condition for rendering
             this.state.showPerson ? 
             <div>
               {
                 this.state.persons.map((e, index) => {
                     return <Person 
-                      // It helps react to identify the item, if something changes
                       key={e.id}
-
                       name={e.name}
                       age={e.age} 
                       click={() => this.deletePerson(index)}

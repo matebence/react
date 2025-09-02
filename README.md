@@ -75,6 +75,22 @@ create-react-app my-first-react-app
 npm start
 ```
 
+**Inline styles with pseudo characters**
+```sh
+npm install --save styled-components
+```
+
+**Using CSS modules**
+```sh
+npm run eject
+```
+webpack.config.dev.js, webpack.config.prod.js
+
+```json
+modules:true,
+localIdentName: '[name]__[local]__[hashLbase85:5]'
+```
+
 `Functional Stateless, class Stateful <- This is a create pattern`
 
 ## High level overview of JavaScript

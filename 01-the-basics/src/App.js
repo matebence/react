@@ -21,13 +21,14 @@ class App extends Component {
 
   changeHandler = (event) => {
     // This is wrong we shoud use setState instead this.state.persons[0].name='New';
+    // It merges the state
     this.setState({persons: [{name: event.target.value, age: 99}]});
     console.log(this.state);
   }
 
 
   clickHandler = () => {
-    // This is wrong we shoud use setState instead this.state.persons[0].name='New';
+    // It merges the state
     this.setState({persons: [{name: 'Test', age: 99}]});
     console.log(this.state);
   }

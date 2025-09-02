@@ -84,11 +84,12 @@ npm install --save styled-components
 ```sh
 npm run eject
 ```
+
 webpack.config.dev.js, webpack.config.prod.js
 
 ```json
 modules:true,
-localIdentName: '[name]__[local]__[hashLbase85:5]'
+localIdentName: '[name]__[local]__[hash:base64:5]'
 ```
 
 `Functional Stateless, class Stateful <- This is a create pattern`

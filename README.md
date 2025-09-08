@@ -265,3 +265,89 @@ const double NumbereArray = numbers.map((num) => {
 console.log(numbers);
 console.log(doubleNumArray);
 ```
+
+## Debugging
+
+Way of working:
+- we have always the dev consoled open (Browser/Create-react-app)
+- Browser Developer tools > Sources > src > App.js
+- Chrome extension 'react developer tools'
+
+## Creation of Components
+
+**Statefull (Containers)**
+- class XY extends Components
+- Access to State
+- Lifecycle Hooks
+- Access State and Props via this
+- this.state.XY & this.props.XY
+- Use only if  you need to manage state or acess Lifecycle Hooks
+
+**Stateless**
+- const XY = (props) => {...}
+- Access to State
+- Lifecycle Hooks
+- Acess Props via 'props'
+- props.xy
+- Use in all other cases
+
+## Lifecycle methods (in statefull components)
+
+**All lifecycle methods**
+- constructor()
+- componentWillMount() - **deprecated**
+- componentWillReceiveProps() - **deprecated**
+- shouldComponentUpdate()
+- componentWillUpdate() - **deprecated**
+- componentDidUpdate()
+- componentDidCatch()
+- componentDidMount()
+- componentWillUnMount()
+- render()
+
+**New lifecycle methods**
+- static getDerivedStateFromProps(nextProps, prevState) - executed when ever the props changes
+- getSnapshotBeforeUpdate() - good for example to save the user scrolling position, because this is the point before the DOM changes
+ 
+**Creation**
+- constructor()
+- componentWillMount()
+- render()
+- `render child components`
+- componentDidMount()
+
+**Update (triggered by Parent)**
+- componentWillReceiveProps()
+- shouldComponentUpdate()
+- componentWillUpdate()
+- render()
+- `update child components`
+- componentDidUpdate()
+
+**Update (triggered by internal change)**
+- shouldComponentUpdate()
+- componentWillUpdate()
+- render()
+- `update child components`
+- componentDidUpdate()
+
+## How React update the DOM?
+
+    PureComponent - it implements the shouldComponentUpdate check. The update of components is happening from top to bottom
+
+Old virtual DOM and rerendered virtual DOM comparison. (Because of this is important the key when we use a for loop)
+
+## Checking for variable types
+
+```sh
+npm install --save prop-types
+```
+
+```js
+Person.propTypes = {
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    changed: PropTypes.func
+}
+```

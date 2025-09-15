@@ -386,3 +386,91 @@ Person.propTypes = {
     changed: PropTypes.func
 }
 ```
+
+## Http Requests in React
+
+Dummy API, for testing
+https://jsonplaceholder.typicode.com/
+
+https://github.com/axios/axios
+
+When to Use Each Approach?
+
+- useEffect: For simple cases where the component needs data when it mounts or when dependencies change.
+- Redux/Thunks: When managing global state across the app or handling complex state changes with multiple components.
+- Custom Hooks: When you want to reuse HTTP request logic across different components.
+- React Query/SWR: For advanced scenarios with caching, background fetching, and automatic retries.
+- Class Components: Mostly legacy. Use hooks where possible in modern React development.
+
+```sh
+ npm install --save axios
+```
+
+- `componentDidMount` ist the best place the send data - its a side effect
+
+```js
+    componentDidMount = () => {
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+            .then(response => {
+                console.log(response);
+            });
+        
+    }
+```
+
+Interceptor for request (Axios)
+```js
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com'
+axios.defaults.headers.common['Authorization'] = 'TOKEN';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+```
+
+Interceptor for response (Axios)
+```js
+axios.interceptors.request.use(request => {
+  console.log(request);
+  return request;
+}, error => {
+  console.log(error);
+  return Promise.reject(error)
+});
+```
+
+Setting default
+```js
+axios.interceptors.response.use(response => {
+  console.log(response);
+  return response;
+}, error => {
+  console.log(error);
+  return Promise.reject(error)
+});
+```
+
+Using instances for one set of request and for another ones
+```js
+import axios from 'axios'
+
+const instace = axios.create({
+    baseUrl: 'https://jsonplaceholder.typicode.com'
+});
+
+instace.defaults.headers.common['Authorization'] = 'TEST';
+instace.defaults.headers.post['Content-Type'] = 'application/xml';
+
+export default instace;
+```
+
+```js
+import  ../../axiosInstance;
+
+myCustomFunction = () => {
+    axiosInstance.get('/test')
+        .then(response => {
+            console.log(response);
+        )
+        .catch(error => {
+            console.log(error);
+        });
+}
+```

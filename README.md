@@ -85,12 +85,47 @@ npm install --save styled-components
 npm run eject
 ```
 
-webpack.config.dev.js, webpack.config.prod.js
-
-```json
-modules:true,
-localIdentName: '[name]__[local]__[hash:base64:5]'
+Search for the section that looks like this: config/webpack.config.js
+```js
+{
+  test: /\.css$/,
+  use: getStyleLoaders({
+    importLoaders: 1,
+    sourceMap: isEnvProduction && shouldUseSourceMap,
+  }),
+  // ... other options
+}
 ```
+Just above or below that rule, add a new rule specifically for .module.css files.
+```js
+{
+  test: /\.module\.css$/,
+  use: getStyleLoaders({
+    importLoaders: 1,
+    sourceMap: isEnvProduction && shouldUseSourceMap,
+    modules: {
+      localIdentName: isEnvProduction
+        ? '[hash:base64]'
+        : '[path][name]__[local]',
+    },
+  }),
+},
+```
+Use CSS Modules in Components, MyComponent.module.css
+```css
+.container {
+  color: red;
+}
+```
+
+```jsx
+import styles from './MyComponent.module.css';
+
+function MyComponent() {
+  return <div className={styles.container}>Hello, CSS Modules!</div>;
+}
+```
+
 
 `Functional Stateless, class Stateful <- This is a create pattern`
 

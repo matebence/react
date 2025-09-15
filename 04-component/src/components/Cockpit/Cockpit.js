@@ -1,5 +1,5 @@
 import './Cockpit.css';
-import Aux from '../../hoc/Aux'
+import Aux from '../../hoc/MyAux'
 
 // Stateless Component
 const cockpit = ( props ) => {

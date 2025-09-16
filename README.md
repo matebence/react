@@ -474,3 +474,186 @@ myCustomFunction = () => {
         });
 }
 ```
+
+## Routing in React
+
+- Loading different types of component for specific routes (JS is doing the rerendering)
+
+```sh
+npm install --save react-router-dom
+```
+
+Defining the entry point via BrowserRouter (use App.js or index.js)
+
+```js
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+```
+
+Hooking up the href's with Link
+
+```js
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+export default function Navbar() {
+  return (
+    <nav>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/:id">Home</Link></li>
+      </ul>
+    </nav>
+  );
+}
+```
+We use nav link if we want to stale .active class
+
+```js
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+
+export default function Navbar() {
+  return (
+    <nav>
+      <ul>
+        <li><NavLink to="/">Home</NavLink></li>
+      </ul>
+    </nav>
+  );
+}
+```
+
+```js
+componentDidMount() {
+    console.log(this.props); // here we can see our nav options from reac-router
+}
+```
+
+Retrieving params in a Class Base Component
+```js
+export function withRouter(Component) {
+  return function WrappedComponent(props) {
+    const params = useParams();
+    return <Component {...props} params={params} />;
+  };
+}
+```
+
+```js
+export default withRouter(Home);
+```
+
+Retrieving params in a Functional Component
+```js
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+function Home() {
+  const { id } = useParams(); 
+
+  return (
+    <div>
+      <p>User ID: {id}</p>
+    </div>
+  );
+}
+
+export default Home;
+```
+
+Working with Nested Routes
+
+```js
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        {/* Parent route */}
+        <Route path="dashboard" element={<Dashboard />}>
+          {/* Nested child routes */}
+          <Route path="profile" element={<Profile />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+```
+
+```js
+function Dashboard() {
+  return (
+    <div>
+      <h2>Dashboard</h2>
+      <nav>
+        <Link to="profile">Profile</Link> | <Link to="settings">Settings</Link>
+      </nav>
+
+      {/* Render nested routes here */}
+      <Outlet />
+    </div>
+  );
+}
+
+export default Dashboard;
+```
+
+Redirecting - it can be used in condition like any other component
+
+```js
+<Navigate from="/" to="/new-post" />
+```
+
+Loading Lazily
+
+```js
+import { lazy } from 'react';
+
+const Home = lazy(() => import('./Home'));
+const About = lazy(() => import('./About'));
+const Contact = lazy(() => import('./Contact'));
+```
+
+```js
+import { Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
+      </Routes>
+    </Suspense>
+  );
+}
+
+export default App;
+```
+
+Deployment on server
+
+- We have to make sure that the index.html is always returned also for unknown urls
+- If tis served from a base directory
+  - <BrowserRouter basename="my-app">

@@ -3,6 +3,7 @@ import styles from './BurgerButton.module.css'
 const BurgerButton = (props) => {
     return (
         <button
+            disabled={props.disabled}
             className={[styles.Button, styles[props.btnType]].join(' ')}
             onClick={props.clicked}>
                 {props.children}

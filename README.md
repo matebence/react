@@ -704,3 +704,69 @@ const Input = (props) => {
 
 export default Input;
 ```
+
+## React Redux
+
+Redux is all about state. In our example that can be list of ingredients, authentication, navigation, is modal open etc ... Using setState 
+in smaller apps its fine but in bigger application we need Redux. To be able to manage complex state. 
+
+Redux:
+- central store -> stories entiry application state (a giant object)
+- component -> wan to manipulate app state
+  - Dispatches Action -> Pre defined Information package (possibly with payload)
+  - Reaches Reducers -> Receive action and update State (pure, sync functions, no side effect)
+  - The reducder at the end updates the Central store
+  - Triggers Subscription -> we can listen to Central store changes
+
+In a React app, a side effect refers to any operation that interacts with the outside world or has an effect outside of the component’s scope. These operations might include things like:
+- Fetching data from an API
+- Modifying the DOM (outside of the React rendering flow)
+- Setting up event listeners
+- Interacting with local storage or session storage
+- Timers (like setTimeout or setInterval)
+- Subscriptions to external data streams
+
+**Setting up Redux**
+
+```sh
+npm install @reduxjs/toolkit react-redux
+```
+
+```js
+const redux = require('redux');
+const createStore = redux.createStore;
+
+const initialState = {
+  counter: 0
+}
+
+// Reducer
+const rootReducer = (state = initialState, action) => {
+  if (action.type === 'INC_COUNTER') {
+    return {
+      ...state,
+      counter: state.counter + 1
+    }
+  }
+  return state;
+}
+
+// Store
+const store = createStore(rootReducer);
+console.log(store.getState());
+
+// Dispatching Action
+store.dispatch({type: 'ADD_COUNTER'});
+store.dispatch({type: 'ADD_COUNTER', value: 10});
+// store.dispatch({type: 'ADD_COUNTER', payload: {}});
+
+//Subscription - something changed, so we can listen to it
+store.subscribe(() => {
+  console.log(store.getState());
+});
+```
+
+When to use use Redux?
+Local UI State => No we should use Redux
+Persistent State => Yes we should stored in redux
+Client State like Auth => Yes we should stored in redux

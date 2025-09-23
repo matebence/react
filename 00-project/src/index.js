@@ -6,13 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import reducer from './store/reducer';
+import burgerBuilder from './store/reducers/burgerBuilder';
+import order from './store/reducers/order';
 
 const store = configureStore({
   reducer: {
-    reducer: reducer
+    burgerBuilder: burgerBuilder,
+    order: order
   },
-});
+},  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); // Chrome dev tools extension
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

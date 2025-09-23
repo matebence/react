@@ -8,12 +8,17 @@ import axios from '../../axios-orders';
 import WithErrorHandler from "../../hoc/withErrorHandler";
 import withRouter from "../../hoc/withRouter";
 import {connect} from 'react-redux';
-import * as actionType from '../../store/actions';
+import * as burgerBuilderActions from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
 
     state = {
         purchasing: false
+    }
+
+    // We dont fetch here the ingredients from the server
+    componentDidMount() {
+        // this.props.onInitIngredients();
     }
 
     updatePurchaseHandler = (ingredients) => {
@@ -48,6 +53,7 @@ class BurgerBuilder extends Component {
         // search: '?' + queryString
         // });
 
+        this.props.onInitPurchase();
         this.props.navigate({pathname: '/checkout'});
     }
 
@@ -87,16 +93,20 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.reducer.ingredients,
-        price: state.reducer.totalPrice
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (ingName) => dispatch({type: actionType.ADD_INGREDIENT, ingredientName: ingName}),
-        onIngredientRemoved: (ingName) => dispatch({type: actionType.REMOVE_INGREDIENT, ingredientName: ingName})
+        onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
+        onInitPurchase: () => dispatch(burgerBuilderActions.purchaseInit())
     }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(withRouter(BurgerBuilder), axios));

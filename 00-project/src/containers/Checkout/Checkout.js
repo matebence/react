@@ -2,8 +2,9 @@ import { Component } from "react";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import withRouter from "../../hoc/withRouter";
 import ContactData from "./ContactData/ContactData";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import {connect} from 'react-redux';
+import * as actions from '../../store/actions/index';
 
 class Checkout extends Component {
 
@@ -32,33 +33,49 @@ class Checkout extends Component {
         this.props.navigate(-1);
     }
 
-    render () {
-        return (
-            <div>
-                <CheckoutSummary 
-                    checkoutContinued={this.checkoutContinuedHandler}
-                    checkoutCancelled={this.checkoutCanceledHandler}
-                    ingredients={this.props.ings}></CheckoutSummary>
-                <Routes>
-                    {/* Handelt via Redux 
-                    <Route 
-                    path="contact-data"
-                    element={<ContactData 
-                    ingredients={this.state.ingredients}
-                    price={this.state.totalPrice}/>} /> */}
+    hasAtLeastOneIngredient = (ingredients) => {
+        return Object.values(ingredients).some(quantity => quantity > 0);
+    }
 
-                    <Route 
-                    path="contact-data"
-                    element={<ContactData />} />
-                </Routes>
+    render () {
+        console.log(this.props.ings);
+        let summary = (
+            <div>
+                <Navigate to="/" />
             </div>
         )
+        if (this.hasAtLeastOneIngredient(this.props.ings)) {
+            const purchasedRedirect = this.props.purchased ? <Navigate to="/"></Navigate> : null;
+            summary = (
+                <div>
+                    {purchasedRedirect}
+                    <CheckoutSummary 
+                        checkoutContinued={this.checkoutContinuedHandler}
+                        checkoutCancelled={this.checkoutCanceledHandler}
+                        ingredients={this.props.ings}></CheckoutSummary>
+                    <Routes>
+                        {/* Handelt via Redux 
+                        <Route 
+                        path="contact-data"
+                        element={<ContactData 
+                        ingredients={this.state.ingredients}
+                        price={this.state.totalPrice}/>} /> */}
+
+                        <Route 
+                        path="contact-data"
+                        element={<ContactData />} />
+                    </Routes>
+                </div>
+            )
+        }
+        return summary;
     }
 }
 
 const mapStateToProps = state => {
     return {
-        ings: state.reducer.ingredients
+        ings: state.burgerBuilder.ingredients,
+        purchased: state.order.purchased
     }
 };
 

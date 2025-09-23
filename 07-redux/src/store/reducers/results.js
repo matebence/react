@@ -6,7 +6,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionType.STORE_RESULT:
+    case actionType.STORE_RESULT: // We can put this logic, into utility functions
         return {
             ...state,
             // if we need the access state.counter, then we use the component for that where we can merge everything together

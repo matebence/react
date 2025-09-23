@@ -728,6 +728,12 @@ In a React app, a side effect refers to any operation that interacts with the ou
 
 **Setting up Redux**
 
+
+Plugin for our browser to able to work with Redux
+https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+https://github.com/reduxjs/redux-devtools?tab=readme-ov-file
+
+
 ```sh
 npm install @reduxjs/toolkit react-redux
 ```
@@ -770,3 +776,55 @@ When to use use Redux?
 Local UI State => No we should use Redux
 Persistent State => Yes we should stored in redux
 Client State like Auth => Yes we should stored in redux
+
+## Creation of middleware 
+
+```js
+const logger = store => {
+  return next => {
+    return action => {
+      console.log("Middleware", action);
+      const result = next(action)
+      console.log("next state", result);
+      return result;
+    }
+  }
+}
+
+
+const store = configureStore({
+  reducer: {
+    ctr: counterReducer,
+    res: resultReducer
+  },
+```
+
+Where to put logic? (Reducer or Action creators?)
+Action creators
+- can run async code
+- should prepare the state update to much
+Reducer
+- Pure, sync code only
+- Core redux concept: Reducers update the state
+ 
+## Redux async
+
+```sh
+npm install --save redux-thunk
+```
+
+```js
+export const saveResult = (res) => {
+    return {
+        type: STORE_RESULT,
+        result: res
+    }
+}
+export const storeResult = (res) => {
+    return (dispatch) => {
+        setTimeout(() =>{
+            dispatch(saveResult(res));
+        }, 8000)
+    }
+}
+```

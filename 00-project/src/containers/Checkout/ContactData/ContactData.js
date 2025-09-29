@@ -16,7 +16,7 @@ class ContactData extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'Your Name'
+                    placeholder: 'Your Name'
                 },
                 value: '',
                 validation: {
@@ -29,7 +29,7 @@ class ContactData extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'Street'
+                    placeholder: 'Street'
                 },
                 value: '',
                 validation: {
@@ -42,7 +42,7 @@ class ContactData extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'ZIP'
+                    placeholder: 'ZIP'
                 },
                 value: '',
                 validation: {
@@ -55,7 +55,7 @@ class ContactData extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeHolder: 'Country'
+                    placeholder: 'Country'
                 },
                 value: '',
                 validation: {
@@ -68,7 +68,7 @@ class ContactData extends Component {
                 elementType: 'input',
                 elementConfig: {
                     type: 'email',
-                    placeHolder: 'Your Email'
+                    placeholder: 'Your Email'
                 },
                 value: '',
                 validation: {

@@ -5,6 +5,7 @@ import * as actions from '../../store/actions/index';
 const Order = (props) => {
 
     // We dont distpacth here the fetch orders because there is no real server
+    // this.props.onFetchOrders(this.props.token)
 
     const ingredients = Object.entries(props.ingredients)
         .map(([key, value]) => `${key}(${value})`)
@@ -24,13 +25,14 @@ const Order = (props) => {
 const mapStateToProps = state => {
     return {
         orders: state.order.orders,
-        loading: state.order.loading
+        loading: state.order.loading,
+        token: state.auth.token
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOrders: () => dispatch(actions.fetchOrders()),
+        onFetchOrders: (token) => dispatch(actions.fetchOrders(token)),
     }
 }
 

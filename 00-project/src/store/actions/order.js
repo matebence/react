@@ -62,10 +62,11 @@ export const fetchOrdersStart = () => {
     }
 }
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
+    // (dispatch, getState) // we could get the token via getState
     return dispatch => {
         dispatch(fetchOrdersStart())
-        axios.get('/orders')
+        axios.get('/orders?auth=' + token)
             .then(response => {
                 console.log(response);
                 dispatch(fetchOrdersSuccess(response.data));

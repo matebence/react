@@ -809,6 +809,7 @@ Reducer
  
 ## Redux async
 
+An alternative to redux-thunk is redux saga
 ```sh
 npm install --save redux-thunk
 ```
@@ -828,3 +829,57 @@ export const storeResult = (res) => {
     }
 }
 ```
+
+## Testing in React
+
+Build App -> Test manually in Browser -> Automatic tests -> Ship App to server
+
+We will need Test Tools
+- Test Runner
+- Executes tests and provides validation library (Jest)
+- Testing utilities
+- Simulates, the react app (Enzyme)
+
+What to test
+- Dont test the library like (redux)
+
+```sh
+npm uninstall jest jest-watch-typeahead
+npm install --save-dev jest@28 @testing-library/react @testing-library/jest-dom @testing-library/user-event jest-environment-jsdom util
+```
+
+Create jest.setup.js in your project root:
+```js
+// jest.setup.js
+const { TextEncoder, TextDecoder } = require('util');
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+```
+
+## Deploying a react app
+
+Check and adjust Basepath - <BrowserRouter basename="/my-app/">
+Build & Optimize Project - npm run build create-react-app project
+Server must always server index.html (also in error cases like 404) - To ensure Rounting works correctly
+Upload build artifacts - /build
+
+Generate the /build folder
+```sh
+npm run build
+```
+
+## Animations in React
+
+- css transitions
+- css animations
+- react-transition-group
+
+```sh
+npm install --save react-transition-group
+```
+
+Other animation packages:
+- react Motion
+- react Move
+- react route transition

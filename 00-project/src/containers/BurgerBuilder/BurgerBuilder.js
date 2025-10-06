@@ -33,9 +33,10 @@ class BurgerBuilder extends Component {
     purchaseHandler = () => {
         if (this.props.isAuthenticated) {
             this.setState({purchasing: true});
+        } else {
+            const { navigate } = this.props;
+            navigate('/auth');
         }
-        const { navigate } = this.props;
-        navigate('/auth');
     }
 
     purchaseCancelHandler = () => {
@@ -117,3 +118,4 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(withRouter(BurgerBuilder), axios));
+export { BurgerBuilder }; 

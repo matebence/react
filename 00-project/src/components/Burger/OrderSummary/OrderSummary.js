@@ -3,7 +3,7 @@ import BurgerButton from "../../UI/BurgerButton/BurgerButton";
 
  const OrderSummary = (props) => {
     const ingredientSummary = Object.keys(props.ingredients).map((igKey) => {
-        return <li><span>{igKey}</span>: {props.ingredients[igKey]}</li>
+        return <li key={igKey}><span>{igKey}</span>: {props.ingredients[igKey]}</li>
     });
     return (
         <Wrapper>
